@@ -1,0 +1,328 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-10-05 08:44-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: djapm/apm/admin.py:49
+msgid "Response"
+msgstr "Resposta"
+
+#: djapm/apm/admin.py:84
+msgid "Basic information"
+msgstr "Informação Básica"
+
+#: djapm/apm/admin.py:86 djapm/apm/admin.py:104
+msgid "Headers"
+msgstr "Cabeçalhos"
+
+#: djapm/apm/admin.py:98
+msgid "URL"
+msgstr "URL"
+
+#: djapm/apm/admin.py:108
+msgid "Query Parameters"
+msgstr "Parâmetros de Consulta"
+
+#: djapm/apm/admin.py:138 djapm/apm/models.py:101
+msgid "Body"
+msgstr "Corpo"
+
+#: djapm/apm/admin.py:145
+msgid "Method"
+msgstr "Método"
+
+#: djapm/apm/admin.py:149 djapm/apm/models.py:51
+msgid "Path"
+msgstr "Caminho"
+
+#: djapm/apm/admin.py:153
+msgid "Requested By"
+msgstr "Requisitado por"
+
+#: djapm/apm/admin.py:160
+msgid "Log"
+msgstr "Log"
+
+#: djapm/apm/admin.py:161
+msgid "Logs"
+msgstr "Logs"
+
+#: djapm/apm/admin.py:177
+msgid "Location"
+msgstr "Localização"
+
+#: djapm/apm/admin.py:206 djapm/apm/models.py:80 djapm/apm/models.py:125
+msgid "Request"
+msgstr "Requisição"
+
+#: djapm/apm/admin.py:208
+msgid "Exception"
+msgstr "Exceção"
+
+#: djapm/apm/admin.py:215
+msgid "Important dates"
+msgstr "Datas importantes"
+
+#: djapm/apm/admin.py:223 djapm/apm/models.py:149
+msgid "Traceback"
+msgstr "Rastreamento"
+
+#: djapm/apm/admin.py:237
+msgid "Payload"
+msgstr "Corpo Enviado"
+
+#: djapm/apm/admin.py:241
+msgid "Dismiss selected Error Traces"
+msgstr "Dispensar Rastreios de erro selecionados"
+
+#: djapm/apm/admin.py:246
+#, python-format
+msgid "%s Errors dismissed"
+msgstr "%s Erros dispensados"
+
+#: djapm/apm/admin.py:271
+msgid "Credentials"
+msgstr "Credenciais"
+
+#: djapm/apm/filters.py:7
+msgid "Ellapsed Time"
+msgstr "Tempo decorrido"
+
+#: djapm/apm/filters.py:12
+msgid "Below 200ms"
+msgstr "Abaixo de 200ms"
+
+#: djapm/apm/filters.py:13
+msgid "Between 200-400ms"
+msgstr "Entre 200-400ms"
+
+#: djapm/apm/filters.py:14
+msgid "Between 400-600ms"
+msgstr "Entre 400-600ms"
+
+#: djapm/apm/filters.py:15
+msgid "Between 600ms-1s"
+msgstr "Entre 600ms-1s"
+
+#: djapm/apm/filters.py:16
+msgid "Above 1s"
+msgstr "Acima de 1s"
+
+#: djapm/apm/models.py:20
+msgid "Request ID"
+msgstr "ID Requisição"
+
+#: djapm/apm/models.py:21
+msgid "Unique identifier of this request"
+msgstr "Identificador único desta requisição"
+
+#: djapm/apm/models.py:27
+msgid "Request Headers"
+msgstr "Cabeçalhos da Requisição"
+
+#: djapm/apm/models.py:28
+msgid "The headers sent with this request"
+msgstr "Os cabeçalhos enviados nesta requisição"
+
+#: djapm/apm/models.py:33
+msgid "Request Query Parameters"
+msgstr "Parâmetros de consulta da requisição"
+
+#: djapm/apm/models.py:34
+msgid "The query parameters sent with this request"
+msgstr "Os parâmetros de consulta enviados nesta requisição"
+
+#: djapm/apm/models.py:39
+msgid "Query string"
+msgstr "Texto de Consulta"
+
+#: djapm/apm/models.py:40
+msgid "The raw query parameter string sent with this request"
+msgstr "Os parâmetros de consulta como foram enviados nesta requisição"
+
+#: djapm/apm/models.py:46
+msgid "HTTP Method"
+msgstr "Método HTTP"
+
+#: djapm/apm/models.py:52
+msgid "The request's URI"
+msgstr "URI da requisição"
+
+#: djapm/apm/models.py:57
+msgid "User"
+msgstr "Usuário"
+
+#: djapm/apm/models.py:58
+msgid "The user associated with this request"
+msgstr "O Usuário associado a esta requisição"
+
+#: djapm/apm/models.py:65
+msgid "Requested at"
+msgstr "Requisitado em"
+
+#: djapm/apm/models.py:71
+msgid "API Request"
+msgstr "Requisição da API"
+
+#: djapm/apm/models.py:72
+msgid "API Requests"
+msgstr "Requisições da API"
+
+#: djapm/apm/models.py:88
+msgid "Status code"
+msgstr "Código de status"
+
+#: djapm/apm/models.py:89
+msgid "The response's status code"
+msgstr "O código de status da resposta"
+
+#: djapm/apm/models.py:95
+msgid "Ellapsed"
+msgstr "Decorrido"
+
+#: djapm/apm/models.py:96
+msgid "How much time the server took to respond"
+msgstr "Quanto tempo o servidor levou para responder"
+
+#: djapm/apm/models.py:102
+msgid "The response's body"
+msgstr "O corpo da resposta"
+
+#: djapm/apm/models.py:107 djapm/apm/models.py:153
+msgid "Created at"
+msgstr "Criado(a) em"
+
+#: djapm/apm/models.py:116
+msgid "API Response"
+msgstr "Resposta da API"
+
+#: djapm/apm/models.py:117
+msgid "API Responses"
+msgstr "Respostas da API"
+
+#: djapm/apm/models.py:133
+msgid "Request Payload"
+msgstr "Corpo da Requisição"
+
+#: djapm/apm/models.py:134
+msgid "The payload sent with this request"
+msgstr "O Corpo enviado nesta requisição"
+
+#: djapm/apm/models.py:139
+msgid "Exception class"
+msgstr "Classe da exceção"
+
+#: djapm/apm/models.py:144
+msgid "Exception arguments"
+msgstr "Argumentos da exceção"
+
+#: djapm/apm/models.py:158
+msgid "Dismissed at"
+msgstr "Dispensado(a) em"
+
+#: djapm/apm/models.py:163
+msgid "Dismissed by user"
+msgstr "Dispensado(a) pelo(a) usuário(a)"
+
+#: djapm/apm/models.py:175 djapm/apm/models.py:184
+msgid "Error Trace"
+msgstr "Rastreio de Erro"
+
+#: djapm/apm/models.py:176
+msgid "Error Traces"
+msgstr "Rastreios de Erro"
+
+#: djapm/apm/models.py:191
+msgid "Level"
+msgstr "Nível"
+
+#: djapm/apm/models.py:196
+msgid "File Path"
+msgstr "Caminho do arquivo"
+
+#: djapm/apm/models.py:201
+msgid "Function Name"
+msgstr "Nome da função"
+
+#: djapm/apm/models.py:206
+msgid "Time Stamp"
+msgstr "Data/Hora"
+
+#: djapm/apm/models.py:210
+msgid "Message"
+msgstr "Mensagem"
+
+#: djapm/apm/models.py:217
+msgid "Request Log"
+msgstr "Log da Requisição"
+
+#: djapm/apm/models.py:218
+msgid "Request Logs"
+msgstr "Logs da Requisição"
+
+#: djapm/apm/models.py:230
+msgid "Platform"
+msgstr "Plataforma"
+
+#: djapm/apm/models.py:231
+msgid "To which platform this integration refers"
+msgstr "Para qual plataforma essa integração se refere"
+
+#: djapm/apm/models.py:237
+msgid "Created by user"
+msgstr "Criado(a) pelo(a) usuário(a)"
+
+#: djapm/apm/models.py:244
+msgid "OAuth Token"
+msgstr "Token OAuth"
+
+#: djapm/apm/models.py:252 djapm/apm/models.py:269
+msgid "Integration"
+msgstr "Integração"
+
+#: djapm/apm/models.py:253
+msgid "Integrations"
+msgstr "Integrações"
+
+#: djapm/apm/models.py:264
+msgid "Name"
+msgstr "Nome"
+
+#: djapm/apm/models.py:265
+msgid "ID"
+msgstr "ID"
+
+#: djapm/apm/models.py:275
+msgid "Receiver Type"
+msgstr "Tipo de Recebedor"
+
+#: djapm/apm/models.py:280
+msgid "Receiver"
+msgstr "Recebedor"
+
+#: djapm/apm/models.py:281
+msgid "Who should receive this message (Id/Name)"
+msgstr "Quem deve receber esta mensagem (Id/Nome)"
+
+#: djapm/apm/models.py:286
+msgid "Notification Receiver"
+msgstr "Recebedor da Notificação"
+
+#: djapm/apm/models.py:287
+msgid "Notification Receivers"
+msgstr "Recebedores de Notificação"

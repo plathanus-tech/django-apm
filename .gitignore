@@ -1,0 +1,7 @@
+.pdm.toml
+
+.venv
+__pycache__
+
+*.mo
+*.sqlite3
