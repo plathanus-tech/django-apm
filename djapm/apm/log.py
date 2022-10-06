@@ -29,5 +29,7 @@ def _configure_logging(request: "PatchedHttpRequest", logger_name: Optional[str]
     )
     request.logger = logging.getLogger(logger_name or default_logger)
     request._log_handler = ApmStreamHandler()
-    request.logger.removeHandler(request._log_handler)
+    for handler in request.logger.handlers.copy():
+        if isinstance(handler, ApmStreamHandler):
+            request.logger.removeHandler(handler)
     request.logger.addHandler(request._log_handler)
