@@ -17,7 +17,7 @@ __all__ = (
 )
 
 
-def api_request_defaults(req: HttpRequest):
+def api_request_defaults(req: types.PatchedHttpRequest):
     save_headers = getattr(
         settings,
         "APM_REQUEST_SAVE_HEADERS",
@@ -37,6 +37,7 @@ def api_request_defaults(req: HttpRequest):
         "headers": dict(req.headers) if save_headers else None,
         "query_parameters": req.GET if save_qp else None,
         "query_string": req.META.get("QUERY_STRING") if save_qs else None,
+        "view_name": req.view_name,
         "method": req.method,
         "path": req.path,
         "user_id": getattr(req.user, "id", None),

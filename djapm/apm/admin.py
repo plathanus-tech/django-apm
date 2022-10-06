@@ -73,7 +73,7 @@ class ApiResponseInline(admin.TabularInline):
 
 @admin.register(models.ApiRequest)
 class ApiRequestAdmin(admin.ModelAdmin):
-    list_display = ("id", "user", "method", "url", "requested_at")
+    list_display = ("id", "user", "view_name", "method", "url", "requested_at")
     ordering = ("-requested_at",)
     readonly_fields = (
         "display_headers",
@@ -82,15 +82,13 @@ class ApiRequestAdmin(admin.ModelAdmin):
         "method",
         "url",
         "user",
+        "view_name",
     )
-    list_filter = (
-        "method",
-        "path",
-    )
+    list_filter = ("method", "view_name")
     search_fields = ("id", "user")
     inlines = (ApiResponseInline,)
     fieldsets = (
-        (_("Basic information"), {"fields": ("method", "url", "user")}),
+        (_("Basic information"), {"fields": ("view_name", "method", "url", "user")}),
         (
             _("Headers"),
             {

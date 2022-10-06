@@ -22,7 +22,7 @@ class ApmView(View):
         **kwargs,
     ) -> HttpResponse:
         """Wraps the standard `View.dispatch`"""
-        contrib._contribute_to_request(request, logger_name=self.logger_name)
+        contrib._contribute_to_request(request, view=self, logger_name=self.logger_name)
         return super().dispatch(request, *args, **kwargs)
 
     # The methods defined below are for type-checking purposes only.

@@ -33,6 +33,7 @@ def apm_api_view(allowed_methods: List[str], logger_name: Optional[str] = None):
 
             contrib._contribute_to_request(
                 dj_request,
+                view=view,
                 logger_name=logger_name,
                 rest_request=request,
             )
@@ -60,6 +61,7 @@ def apm_view(logger_name: Optional[str] = None):
         def inner(request: types.PatchedHttpRequest, *args, **kwargs):
             contrib._contribute_to_request(
                 request,
+                view=view,
                 logger_name=logger_name,
             )
             return view(request, *args, **kwargs)
@@ -95,6 +97,7 @@ def apm_admin_view(
             if request.method in track_methods:
                 contrib._contribute_to_request(
                     request,
+                    view=view,
                     logger_name=logger_name,
                 )
             return view(self, request, *args, **kwargs)

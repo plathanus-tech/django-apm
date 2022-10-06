@@ -42,6 +42,13 @@ class ApiRequest(models.Model):
         null=True,
         editable=False,
     )
+    view_name = models.CharField(
+        verbose_name=_("View name"),
+        help_text=_("The name of the function/class that handled this request"),
+        max_length=255,
+        null=True,
+        editable=False,
+    )
     method = models.CharField(
         verbose_name=_("HTTP Method"),
         max_length=7,
