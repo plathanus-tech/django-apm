@@ -53,7 +53,15 @@ class ApmModelAdmin(admin.ModelAdmin):
         return super().changeform_view(request, *args, **kwargs)
 
 
-class ApiResponseInline(admin.TabularInline):
+class NoAddNoChangeMixin:
+    def has_add_permission(self, *args, **kwargs):
+        return False
+
+    def has_change_permission(self, *args, **kwargs):
+        return False
+
+
+class ApiResponseInline(NoAddNoChangeMixin, admin.TabularInline):
     model = models.ApiResponse
     verbose_name = _("Response")
     readonly_fields = (
@@ -64,15 +72,12 @@ class ApiResponseInline(admin.TabularInline):
     )
     extra = 0
 
-    def has_add_permission(self, *args, **kwargs) -> bool:
-        return False
-
     def has_delete_permission(self, *args, **kwargs) -> bool:
         return False
 
 
 @admin.register(models.ApiRequest)
-class ApiRequestAdmin(admin.ModelAdmin):
+class ApiRequestAdmin(NoAddNoChangeMixin, admin.ModelAdmin):
     list_display = ("id", "user", "view_name", "method", "url", "requested_at")
     ordering = ("-requested_at",)
     readonly_fields = (
@@ -121,7 +126,7 @@ class ApiRequestAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.ApiResponse)
-class ApiResponseAdmin(admin.ModelAdmin):
+class ApiResponseAdmin(NoAddNoChangeMixin, admin.ModelAdmin):
     list_display = (
         "request_id",
         "request_method",
@@ -162,7 +167,7 @@ class ApiResponseAdmin(admin.ModelAdmin):
         return obj.request.user
 
 
-class RequestLogInline(admin.TabularInline):
+class RequestLogInline(NoAddNoChangeMixin, admin.TabularInline):
     model = models.RequestLog
     verbose_name = _("Log")
     verbose_name_plural = _("Logs")
@@ -175,9 +180,6 @@ class RequestLogInline(admin.TabularInline):
     ordering = ("timestamp",)
     extra = 0
 
-    def has_add_permission(self, *args, **kwargs) -> bool:
-        return False
-
     def has_delete_permission(self, *args, **kwargs) -> bool:
         return False
 
@@ -187,7 +189,7 @@ class RequestLogInline(admin.TabularInline):
 
 
 @admin.register(models.ErrorTrace)
-class ErrorTraceAdmin(admin.ModelAdmin):
+class ErrorTraceAdmin(NoAddNoChangeMixin, admin.ModelAdmin):
     list_display = (
         "request_id",
         "exception_class",
