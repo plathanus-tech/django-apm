@@ -5,3 +5,4 @@ __pycache__
 
 *.mo
 *.sqlite3
+dist/

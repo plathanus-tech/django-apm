@@ -1,0 +1,3 @@
+For publishing:
+- swap the version on the pyproject.toml;
+- run: pdm publish -u user -P raw_password
