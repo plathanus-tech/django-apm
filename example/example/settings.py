@@ -12,6 +12,7 @@ ALLOWED_HOSTS = ["*"]
 
 
 INSTALLED_APPS = [
+    "djapm.apm.apps.ApmConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -20,7 +21,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "rest_framework",
-    "djapm.apm.apps.ApmConfig",
     "polls.apps.PollsConfig",
 ]
 SITE_ID = 1

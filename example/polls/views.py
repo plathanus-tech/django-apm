@@ -1,7 +1,7 @@
-import time
+from django.http import HttpResponse
 
 from djapm.apm import decorators
-from djapm.apm.types import ApmRequest
+from djapm.apm.types import ApmRequest, PatchedHttpRequest
 from rest_framework import serializers
 from rest_framework.response import Response
 
@@ -28,5 +28,10 @@ def fail(request: ApmRequest, **kwargs) -> Response:
         request.logger.warning("Warning")
         request.logger.error("Error")
         request.logger.critical("Critical")
-        raise ValueError("Oops! failed")
+        raise FileNotFoundError("Oops! failed")
     return Response()
+
+
+@decorators.apm_view()
+def get_polls_page(request: PatchedHttpRequest, **kwargs) -> HttpResponse:
+    return HttpResponse()

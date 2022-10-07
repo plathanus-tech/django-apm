@@ -1,0 +1,57 @@
+{% extends 'admin/change_list.html' %}
+{% load static i18n %}
+
+
+{% block extrastyle %}
+    {{ block.super }}
+    {% url 'javascript-catalog' as jscatalog %}
+    {% if jscatalog %}
+        <script src="{{jscatalog}}"></script>
+    {% else %}
+        {% comment %} Fallback to gettext being unavailable {% endcomment %}
+        <script>const gettext = (str) => {return str};</script>
+    {% endif %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script src="{% static 'apm/js/fetch-utils.js' %}"></script>
+    <script src="{% static 'apm/js/chart.js' %}" defer></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'apm/css/dashboard.css' %}"/>
+    {{api_urls|json_script:"apiUrls"}}
+{% endblock extrastyle %}
+
+
+{% block title %}APM Dashboard{% endblock title %}
+    
+
+{% block content_title %}
+    <h1>APM Dashboard</h1>
+{% endblock %}
+
+{% block content_subtitle %}
+    <h2>{% trans 'This page refreshs itself each minute' %}</h2>
+{% endblock content_subtitle %}
+    
+
+
+{% block content %}
+    <div id="content-main">
+        <div class=chartWrapper>
+            <canvas id="RequestsCountByDate"></canvas>
+            <canvas id="RequestsViewNameCountToday"></canvas>
+            <canvas id="ResponseEllapsedTimeByView"></canvas>
+            <canvas id="ResponseEllapsedTimeByDate"></canvas>
+            <canvas id="RequestsCountLast24Hours"></canvas>
+            <canvas id="ErrorsPerClassLastWeek"></canvas>
+        </div>
+    </div>
+{% endblock content %}
+
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
+    &rsaquo; <a href="{% url 'admin:app_list' app_label='apm' %}">APM</a>
+    &rsaquo; <a href="{% url 'apm-dashboard' %}">Dashboard</a>
+</div>
+{% endblock breadcrumbs %}
+    

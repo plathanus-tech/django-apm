@@ -1,0 +1,90 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-10-07 09:57-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: djapm/apm/static/apm/js/chart.js:28 djapm/apm/static/apm/js/chart.js:49
+#: djapm/apm/static/apm/js/chart.js:86 djapm/apm/static/apm/js/chart.js:195
+#: djapm/apm/static/apm/js/chart.js:210
+msgid "Requests"
+msgstr "Requisições"
+
+#: djapm/apm/static/apm/js/chart.js:34 djapm/apm/static/apm/js/chart.js:69
+#: djapm/apm/static/apm/js/chart.js:227
+msgid "Errors"
+msgstr "Erros"
+
+#: djapm/apm/static/apm/js/chart.js:46
+msgid "Nº of requests per date"
+msgstr "Nº de requisições por data"
+
+#: djapm/apm/static/apm/js/chart.js:47
+msgid "The number requests registered at each date (last week)"
+msgstr "O número de requisições registradas em cada data (última semana)"
+
+#: djapm/apm/static/apm/js/chart.js:64
+msgid "Endpoints Requests"
+msgstr "Requisições por Endpoint"
+
+#: djapm/apm/static/apm/js/chart.js:81
+msgid "Today's requests per view"
+msgstr "Requisições Hoje por view"
+
+#: djapm/apm/static/apm/js/chart.js:82
+msgid "The number of today's requests on each view"
+msgstr "O número de requisições hoje por cada view"
+
+#: djapm/apm/static/apm/js/chart.js:103
+msgid "Min time"
+msgstr "Tempo mín"
+
+#: djapm/apm/static/apm/js/chart.js:109
+msgid "Avg time"
+msgstr "Tempo méd"
+
+#: djapm/apm/static/apm/js/chart.js:115
+msgid "Max time"
+msgstr "Tempo máx"
+
+#: djapm/apm/static/apm/js/chart.js:127
+msgid "View response times"
+msgstr "Tempo de resposta da View"
+
+#: djapm/apm/static/apm/js/chart.js:128
+msgid "The response's times at each view (last week)"
+msgstr "O tempo de resposta de cada view (última semana)"
+
+#: djapm/apm/static/apm/js/chart.js:132
+msgid "Time (seconds)"
+msgstr "Tempo (segundos)"
+
+#: djapm/apm/static/apm/js/chart.js:207
+msgid "Requests last 24 hours"
+msgstr "Requisições últimas 24 horas"
+
+#: djapm/apm/static/apm/js/chart.js:208
+msgid "The number requests registered on the last 24 hours"
+msgstr "O número de requisições registradas nas últimas 24 horas"
+
+#: djapm/apm/static/apm/js/chart.js:238
+msgid "Errors per type"
+msgstr "Erros por tipo"
+
+#: djapm/apm/static/apm/js/chart.js:239
+msgid "The number of errors per exception class (last week)"
+msgstr "O número de erros por tipo de exceção (última semana)"
