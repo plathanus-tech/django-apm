@@ -26,7 +26,7 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 MIDDLEWARE = [
-    "djapm.apm.middlewares.ApiMetricsMiddleware",
+    "djapm.apm.middlewares.ApmMetricsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",

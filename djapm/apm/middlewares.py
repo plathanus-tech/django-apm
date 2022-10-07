@@ -12,7 +12,7 @@ from djapm.apm import types, models, dflt_conf, tasks
 
 
 __all__ = (
-    "ApiMetricsMiddleware",
+    "ApmMetricsMiddleware",
     "ErrorTraceMiddleware",
 )
 
@@ -52,7 +52,7 @@ def api_response_defaults(res: Response, ellapsed: float):
     }
 
 
-class ApiMetricsMiddleware:
+class ApmMetricsMiddleware:
     """A middleware that will register a Request/Response associated data"""
 
     def __init__(self, get_response: types.GetResponse):

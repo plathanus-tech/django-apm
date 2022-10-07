@@ -2,29 +2,64 @@
 
 A fully featured APM for django using django.
 
+## Features:
+
+- Know each view is getting more requests/errors;
+- Keep track of response times;
+- Registers errors and notify you/your team on slack/discord with the exception, traceback and logs;
+- Keep track of requests headers/query and payloads (on errors), making it easy to reproduce them in a separate environment.
+- Notify your team using celery if desired;
+
+Notifications example:
+On slack:
+<img src="docs/examples/slack-notification.png">
+On discord:
+<img src="docs/examples/discord-notification.png">
+
 ## Installation
 
 Install the package using your favorite packaging tool: pip / poetry / pdm, etc.
 
 1.  **Add `djapm.apm.apps.ApmConfig` to `INSTALLED_APPS` in your django settings.**
     If you're going to use the `apm_api_view`: Don't forget to add `rest_framework` to your `INSTALLED_APPS`.
-    It also requires the `django.contrib.sites` app installed.
+    It also requires the `django.contrib.sites` app installed. It must come before the `django.contrib.admin` for the dashboard link show up.
 
-2.  **Adding the ApiMetricsMiddleware middleware (optional).**
-    If you want to track the requests timing, add the `djapm.apm.middlewares.ApiMetricsMiddleware` to `MIDDLEWARE` in your django settings. Note that this will store into your database **all** requests that use the decorator `apm_api_view` (This decorator is explained later), no cleanup is done. Is up to you to clean the registers periodically if desired. It's better to keep this middleware the **closest to the top** of your `MIDDLEWARE` as possible , this way the `ellapsed` time is closer to the reality.
+2.  **Adding the middlewares**
 
-3.  **Adding the ErrorTraceMiddleware (optional).**
-    If you want to track errors and receive notifications, add the `djapm.apm.middlewares.ErrorTraceMiddleware` to `MIDDLEWARE` in your django settings. We recommend that you keep this middleware **closest to the bottom** of your `MIDDLEWARE` as possible. This middleware will notify any exception raised on your view to all integrations added (the setup is explained later).
+    - Adding the ApmMetricsMiddleware middleware (optional).
+      If you want to track the requests timing, add the `djapm.apm.middlewares.ApmMetricsMiddleware` to `MIDDLEWARE` in your django settings. Note that this will store into your database **all** requests that use the decorator `apm_api_view` (This decorator is explained later), no cleanup is done. Is up to you to clean the registers periodically if desired. It's better to keep this middleware the **closest to the top** of your `MIDDLEWARE` as possible , this way the `ellapsed` time is closer to the reality.
+
+    - Adding the ErrorTraceMiddleware (optional).
+      If you want to track errors and receive notifications, add the `djapm.apm.middlewares.ErrorTraceMiddleware` to `MIDDLEWARE` in your django settings. We recommend that you keep this middleware **closest to the bottom** of your `MIDDLEWARE` as possible. This middleware will notify any exception raised on your view to all integrations added (the setup is explained later).
+
+3.  **Including the URLs**
+
+    `djapm` comes with a dashboard that's accessible through the django-admin. It only allows superusers to view it. To enable the dashboard include the following in your root `urls.py` file:
+
+    ```python
+    from django.urls import include
+
+    urlpatterns = [
+      # Your other patterns...
+      path("apm/", include("djapm.apm.urls")),
+    ]
+    ```
+
+    Now go to the admin, you should be able to see the dashboard link.
+    <img src="./docs/examples/admin-apm-app-list.png">
+
+    The dashboard shows the data collected from the middlewares. It uses `chart.js` to render the graphics. The data is get from the database via API. Example:
+    <img src="./docs/examples/dashboard.png">
 
 4.  **Upgrading your views**
-    django-apm comes with 3 decorators: `apm_api_view`, `apm_view` and `apm_admin_view`. Also, it comes with a ClassBasedView: `ApmView`. Each of these adds some attributes to the `request`, they are:
+    django-apm comes with 3 decorators: `apm_api_view`, `apm_view` and `apm_admin_view`. Also, it comes with a ClassBasedView: `ApmView` and a ModelAdmin for tracking POST requests: `ApmModelAdmin`. Each of these adds some attributes to the `request`, they are:
 
     - `id` (`str`): A string UUID4;
     - `logger` (`logging.Logger`): A logger that you can use to log to the sdout and keep track of all logs emitted.
     - `_log_handler` (`djapm.apm.log.ApmStreamHandler`): We use this handler so we can capture all logs emitted by your view; **Do not use this directly**.
     - `_json` (`Any`): An alias to `rest_framework.Request.data` we store this because it's only available at the view, and if not stored, we wouldn't be able to track the payload in the middleware.
 
-    If you enabled the `ApiMetricsMiddleware`, this request and response will be saved to the database. If you enabled the `ErrorTraceMiddleware` any errors uncaught raised by your view will be notified to you. This does not includes the `rest_framework.serializers.ValidationError`, since `rest_framework` itself already handles this exception.
+    If you enabled the `ApmMetricsMiddleware`, this request and response will be saved to the database. If you enabled the `ErrorTraceMiddleware` any errors uncaught raised by your view will be notified to you. This does not includes the `rest_framework.serializers.ValidationError`, since `rest_framework` itself already handles this exception.
 
     So, let's get started with each decorator:
 
@@ -98,6 +133,19 @@ Install the package using your favorite packaging tool: pip / poetry / pdm, etc.
               ...
       ```
 
+    - The Django Admin POST requests:
+      If you want to keep track of your admin model Creations, inherit from `ApmModelAdmin` instead of the regular `admin.ModelAdmin`. Example:
+
+      ```python
+      from django.contrib import admin
+      from djapm.apm.admin import ApmModelAdmin
+      from yourapp.models import AModel
+
+      @admin.register(AModel)
+      class YourModelAdmin(ApmModelAdmin):
+        ...
+      ```
+
 5.  **Running the migrations:**
 
     Since we rely on the database, you must migrate your database:
@@ -140,10 +188,16 @@ Install the package using your favorite packaging tool: pip / poetry / pdm, etc.
     - `APM_REQUEST_SAVE_QUERY_STRING`: Boolean that when set to `True` will save the request raw query string. Defaults to `True`;
     - `APM_NOTIFY_USING_CELERY`: Boolean that when set to `True` will dispatch a celery task when notificating. Since the process of notificating Integration can take a long time, we suggest you to set this to `True`. Defaults to `False`.
 
+## Storage considerations
+
+Since `djapm` uses the database to register, get metrics, this may lead to a lot of storage being used. `djapm` doesn't do cleanups, if you use celery-beat it may be useful to have a scheduled task to do the cleanup. Most of the data displayed on the dashboard is from the last 7 days.
+
+You also may find useful to use a separate database for this metrics, errors.
+
+## Ellapsed time considerations
+
+The ellapsed time displayed, registered is not precise from what your clients may be having. Since we only start keeping track of the time when the request first enters the `ApmMetricsMiddleware`.
+
 ## Project Future
 
-- Include a page on admin with metrics/graphics.
-- Include a decorator regular Django views.
-- Include support for class-based-views.
 - Include support for ViewSets.
-- Figure it out a way to handle admin routes.

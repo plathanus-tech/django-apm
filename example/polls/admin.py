@@ -1,4 +1,5 @@
 from django.contrib import admin
+from djapm.apm.admin import ApmModelAdmin
 
 from polls import models
 
@@ -13,6 +14,8 @@ class VoteInline(admin.TabularInline):
 
 
 @admin.register(models.Poll)
-class PollAdmin(admin.ModelAdmin):
+class PollAdmin(ApmModelAdmin):
+    """An admin that keeps track of the model creations"""
+
     list_display = ("id", "name")
     inlines = (VoteInline,)

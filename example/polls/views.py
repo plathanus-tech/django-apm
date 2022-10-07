@@ -1,3 +1,5 @@
+import random
+
 from django.http import HttpResponse
 
 from djapm.apm import decorators
@@ -16,13 +18,25 @@ class PollSerializer(serializers.ModelSerializer):
 
 @decorators.apm_api_view(["GET"])
 def get_polls(request: ApmRequest, **kwargs) -> Response:
-    request.logger.warning("Trying to log")
+    """A API-view that dont fails"""
     serializer = PollSerializer(Poll.objects.all(), many=True)
     return Response(serializer.data)
 
 
+@decorators.apm_api_view(["GET"])
+def im_feeling_lucky(request: ApmRequest, **kwargs) -> Response:
+    """A API-view that fails randomly"""
+    request.logger.info(f"{request.user=} is feeling lucky")
+    number = random.randint(0, 5)
+    if number == 5:
+        request.logger.error("The number of this time is not good")
+        raise RecursionError("Oops, no luck this time")
+    return Response({"message": "Your lucky bastard!"})
+
+
 @decorators.apm_api_view(["GET", "POST"])
 def fail(request: ApmRequest, **kwargs) -> Response:
+    """A view that fails when posting"""
     if request.method == "POST":
         request.logger.info("Information")
         request.logger.warning("Warning")
