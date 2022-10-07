@@ -6,13 +6,6 @@ A fully featured APM for django using django.
 
 Install the package using your favorite packaging tool: pip / poetry / pdm, etc.
 
-This package comes with two dependency groups:
-
-- The default, that contains the minimum required dependencies to operate. Install using: `django-apm`
-- The `celery` group, that contains the celery dependencies. Install using: `django-apm[celery]`.
-- The `restframework` group, that contains the `djangorestframework` dependencies. Install using: `django-apm[restframework]`
-- The `all` group, that contains all the above dependencies. Install using: `django-apm[all]`
-
 1.  **Add `djapm.apm.apps.ApmConfig` to `INSTALLED_APPS` in your django settings.**
     If you're going to use the `apm_api_view`: Don't forget to add `rest_framework` to your `INSTALLED_APPS`.
     It also requires the `django.contrib.sites` app installed.
