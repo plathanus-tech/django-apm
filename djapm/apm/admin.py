@@ -130,7 +130,7 @@ class ApiResponseAdmin(NoAddNoChangeMixin, admin.ModelAdmin):
     list_display = (
         "request_id",
         "request_method",
-        "request_path",
+        "request_view",
         "requested_by",
         "status_code",
         "ellapsed",
@@ -145,7 +145,7 @@ class ApiResponseAdmin(NoAddNoChangeMixin, admin.ModelAdmin):
         "created_at",
     )
     search_fields = ("request",)
-    list_filter = ("status_code", filters.EllapsedTimeFilter)
+    list_filter = ("status_code", filters.EllapsedTimeFilter, "request__view_name")
 
     @admin.display(description=_("Body"))
     def display_body(self, obj: models.ApiResponse):
@@ -158,9 +158,9 @@ class ApiResponseAdmin(NoAddNoChangeMixin, admin.ModelAdmin):
     def request_method(self, obj: models.ApiResponse):
         return obj.request.method
 
-    @admin.display(description=_("Path"))
-    def request_path(self, obj: models.ApiResponse):
-        return obj.request.path
+    @admin.display(description=_("View Name"))
+    def request_view(self, obj: models.ApiResponse):
+        return obj.request.view_name
 
     @admin.display(description=_("Requested By"))
     def requested_by(self, obj: models.ApiResponse):
