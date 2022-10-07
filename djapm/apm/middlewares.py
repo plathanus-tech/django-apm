@@ -12,12 +12,12 @@ from djapm.apm import types, models, dflt_conf, tasks
 
 
 __all__ = (
-    "ApiMetricsMiddleware",
+    "ApmMetricsMiddleware",
     "ErrorTraceMiddleware",
 )
 
 
-def api_request_defaults(req: HttpRequest):
+def api_request_defaults(req: types.PatchedHttpRequest):
     save_headers = getattr(
         settings,
         "APM_REQUEST_SAVE_HEADERS",
@@ -37,6 +37,7 @@ def api_request_defaults(req: HttpRequest):
         "headers": dict(req.headers) if save_headers else None,
         "query_parameters": req.GET if save_qp else None,
         "query_string": req.META.get("QUERY_STRING") if save_qs else None,
+        "view_name": req.view_name,
         "method": req.method,
         "path": req.path,
         "user_id": getattr(req.user, "id", None),
@@ -51,7 +52,7 @@ def api_response_defaults(res: Response, ellapsed: float):
     }
 
 
-class ApiMetricsMiddleware:
+class ApmMetricsMiddleware:
     """A middleware that will register a Request/Response associated data"""
 
     def __init__(self, get_response: types.GetResponse):

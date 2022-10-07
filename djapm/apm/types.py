@@ -13,6 +13,7 @@ __all__ = ("ApmRequest", "ApiApmView", "ApmView", "GetResponse", "PatchedHttpReq
 
 class ApmRequest(Request):
     id: str
+    view_name: str
     logger: logging.Logger
     _request: "PatchedHttpRequest"
 
@@ -46,6 +47,7 @@ class PatchedHttpRequest(HttpRequest):
 
     id: str
     logger: logging.Logger
+    view_name: str
     _log_handler: ApmStreamHandler
     started_at: float
     _json: Dict[str, Any]

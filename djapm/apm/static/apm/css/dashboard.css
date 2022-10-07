@@ -1,0 +1,10 @@
+
+
+.chartWrapper {
+    display: inline;
+}
+.chartWrapper > canvas {
+    max-width: 500px;
+    max-height: 400px;
+    display: inline !important;
+}
