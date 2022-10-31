@@ -27,11 +27,14 @@ requires = ["pdm-pep517>=1.0.0"]
 build-backend = "pdm.pep517.api"
 
 [tool.pdm.scripts]
-makemessages = {env_file = "default.env", cmd = "django-admin makemessages"}
+makemessages = {env_file = "apm.env", cmd = "django-admin makemessages"}
 
 [tool]
 [tool.pdm]
 [tool.pdm.dev-dependencies]
 dev = [
     "black>=22.8.0",
+    "pytest>=7.2.0",
+    "pytest-django>=4.5.2",
+    "pytest-socket>=0.5.1",
 ]
