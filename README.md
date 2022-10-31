@@ -126,8 +126,7 @@ Install the package using your favorite packaging tool: pip / poetry / pdm, etc.
       from djapm.apm.views import ApmView
       from djapm.apm.types import PatchedHttpRequest
 
-      # Inherit ApmView before the Django CBV, due to MRO (Method Resolution Order)
-      class YourCreateView(ApmView, CreateView):
+      class YourCreateView(CreateView, ApmView):
           ...
           def post(self, request: PatchedHttpRequest, **kwargs):
               ...

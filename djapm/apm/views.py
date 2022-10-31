@@ -38,7 +38,7 @@ class ApmView(View):
         *args,
         **kwargs,
     ) -> HttpResponse:
-        return self.http_method_not_allowed(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
 
     def post(
         self,
@@ -46,7 +46,7 @@ class ApmView(View):
         *args,
         **kwargs,
     ) -> HttpResponse:
-        return self.http_method_not_allowed(request, *args, **kwargs)
+        return super().post(request, *args, **kwargs)
 
     def put(
         self,
@@ -54,7 +54,7 @@ class ApmView(View):
         *args,
         **kwargs,
     ) -> HttpResponse:
-        return self.http_method_not_allowed(request, *args, **kwargs)
+        return super().put(request, *args, **kwargs)
 
     def patch(
         self,
@@ -62,7 +62,7 @@ class ApmView(View):
         *args,
         **kwargs,
     ) -> HttpResponse:
-        return self.http_method_not_allowed(request, *args, **kwargs)
+        return super().patch(request, *args, **kwargs)
 
     def delete(
         self,
@@ -70,7 +70,7 @@ class ApmView(View):
         *args,
         **kwargs,
     ) -> HttpResponse:
-        return self.http_method_not_allowed(request, *args, **kwargs)
+        return super().delete(request, *args, **kwargs)
 
     def head(
         self,
@@ -78,7 +78,7 @@ class ApmView(View):
         *args,
         **kwargs,
     ) -> HttpResponse:
-        return self.http_method_not_allowed(request, *args, **kwargs)
+        return super().head(request, *args, **kwargs)
 
     def options(
         self,
@@ -86,7 +86,7 @@ class ApmView(View):
         *args,
         **kwargs,
     ) -> HttpResponse:
-        return self.http_method_not_allowed(request, *args, **kwargs)
+        return super().options(request, *args, **kwargs)
 
     def trace(
         self,
@@ -94,7 +94,7 @@ class ApmView(View):
         *args,
         **kwargs,
     ) -> HttpResponse:
-        return self.http_method_not_allowed(request, *args, **kwargs)
+        return super().trace(request, *args, **kwargs)
 
 
 def render_dashboard(request):
