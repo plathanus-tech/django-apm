@@ -2,6 +2,7 @@ from datetime import datetime
 import logging
 from time import perf_counter
 import traceback
+import warnings
 
 from django.conf import settings
 from django.http import HttpRequest
@@ -113,6 +114,15 @@ class ErrorTraceMiddleware:
             # This request was not processed by the decorator `apm_api_view`
             return
         trace = self._register_error_trace(request, exception)
+        notify_on_debug_true = getattr(
+            settings, "APM_NOTIFY_ON_DEBUG_TRUE", dflt_conf.APM_NOTIFY_ON_DEBUG_TRUE
+        )
+        if settings.DEBUG and not notify_on_debug_true:
+            warnings.warn(
+                "Errors Notifications aren't sent when DEBUG=True and APM_NOTIFY_ON_DEBUG_TRUE=False"
+            )
+            return
+
         use_celery = getattr(
             settings, "APM_NOTIFY_USING_CELERY", dflt_conf.APM_NOTIFY_USING_CELERY
         )

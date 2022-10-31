@@ -186,6 +186,7 @@ Install the package using your favorite packaging tool: pip / poetry / pdm, etc.
     - `APM_REQUEST_SAVE_QUERY_PARAMETERS`: Boolean that when set to `True` will save the request query parameters as json. Defaults to `True`;
     - `APM_REQUEST_SAVE_QUERY_STRING`: Boolean that when set to `True` will save the request raw query string. Defaults to `True`;
     - `APM_NOTIFY_USING_CELERY`: Boolean that when set to `True` will dispatch a celery task when notificating. Since the process of notificating Integration can take a long time, we suggest you to set this to `True`. Defaults to `False`.
+    - `APM_NOTIFY_ON_DEBUG_TRUE`: Boolean that when set to `True` will notify errors even when `DEBUG=True`. Defaults to `False`.
 
 ## Storage considerations
 
