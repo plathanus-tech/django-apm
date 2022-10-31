@@ -20,7 +20,7 @@ On discord:
 
 Install the package using your favorite packaging tool: pip / poetry / pdm, etc.
 
-1.  **Add `djapm.apm.apps.ApmConfig` to `INSTALLED_APPS` in your django settings.**
+1.  **Add `djapm.apm.apps.ApmConfig` to `INSTALLED_APPS` in your django settings. Make sure to add it before `django.contrib.admin`.** Otherwise, the dashboard link will not show up in Django admin.
     If you're going to use the `apm_api_view`: Don't forget to add `rest_framework` to your `INSTALLED_APPS`.
     It also requires the `django.contrib.sites` app installed. It must come before the `django.contrib.admin` for the dashboard link show up.
 
