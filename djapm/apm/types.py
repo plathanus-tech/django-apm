@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Dict, Protocol, Union
+from typing import Any, Callable, Dict, Protocol, Union
 from django.http import HttpRequest, HttpResponse
 
 from rest_framework.request import Request
@@ -8,7 +8,13 @@ from rest_framework.response import Response
 from djapm.apm.log import ApmStreamHandler
 
 
-__all__ = ("ApmRequest", "ApiApmView", "ApmView", "GetResponse", "PatchedHttpRequest")
+__all__ = (
+    "ApmRequest",
+    "ApiApmView",
+    "ApmView",
+    "GetResponse",
+    "PatchedHttpRequest",
+)
 
 
 class ApmRequest(Request):
