@@ -1,9 +1,11 @@
 import random
 
 from django.http import HttpResponse
+from django.views.generic import ListView
 
 from djapm.apm import decorators
 from djapm.apm.types import ApmRequest, PatchedHttpRequest
+from djapm.apm.views import ApmView
 from rest_framework import serializers
 from rest_framework.response import Response
 
@@ -21,6 +23,11 @@ def get_polls(request: ApmRequest, **kwargs) -> Response:
     """A API-view that dont fails"""
     serializer = PollSerializer(Poll.objects.all(), many=True)
     return Response(serializer.data)
+
+
+class OrderedPolls(ApmView, ListView):
+    # A view that will raise TemplateDoesNotExistsError
+    queryset = Poll.objects.order_by("name")
 
 
 @decorators.apm_api_view(["GET"])
