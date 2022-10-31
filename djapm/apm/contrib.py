@@ -19,10 +19,10 @@ def _contribute_to_request(
         data = rest_request.data
         view_name = get_view_name(view)
         if view_name == "Function":
-            view_name = ".".join([view.__module__, view.__class__.__name__])
+            view_name = ".".join([view.__module__, getattr(view, "__name__", view.__class__.__name__)])
     else:
         data = request.POST
-        view_name = ".".join([view.__module__, view.__class__.__name__])
+        view_name = ".".join([view.__module__, getattr(view, "__name__", view.__class__.__name__)])
 
     log._configure_logging(request=request, logger_name=logger_name)
 
