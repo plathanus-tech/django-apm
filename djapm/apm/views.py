@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import View
+from rest_framework.views import APIView
 
 from djapm.apm import contrib, models, types
 
@@ -26,6 +27,23 @@ class ApmView(View):
     ) -> HttpResponse:
         """Wraps the standard `View.dispatch`"""
         contrib._contribute_to_request(request, view=self, logger_name=self.logger_name)
+        return super().dispatch(request, *args, **kwargs)
+
+
+class ApmAPIView(APIView):
+    """Apm Rest Framework class based view that will contribute to the incoming `request` before dispatching.
+    Allowing it to be tracked by the middlewares."""
+
+    logger_name: Optional[str] = None
+
+    def dispatch(self, request, *args, **kwargs):
+        rest_request = self.initialize_request(request, *args, **kwargs)
+        contrib._contribute_to_request(
+            request,
+            view=self,
+            logger_name=self.logger_name,
+            rest_request=rest_request,
+        )
         return super().dispatch(request, *args, **kwargs)
 
 
