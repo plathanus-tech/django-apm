@@ -6,7 +6,7 @@ from django.views.generic import ListView
 from djapm.apm import decorators
 from djapm.apm.types import ApmRequest, PatchedHttpRequest
 from djapm.apm.views import ApmView
-from rest_framework import serializers
+from rest_framework import serializers, generics
 from rest_framework.response import Response
 
 from polls.models import Poll
@@ -23,6 +23,11 @@ def get_polls(request: ApmRequest, **kwargs) -> Response:
     """A API-view that dont fails"""
     serializer = PollSerializer(Poll.objects.all(), many=True)
     return Response(serializer.data)
+
+
+class Polls(ApmView, generics.ListAPIView):
+    queryset = Poll.objects.all()
+    serializer_class = PollSerializer
 
 
 class OrderedPolls(ApmView, ListView):
