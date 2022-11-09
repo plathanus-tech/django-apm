@@ -1,8 +1,5 @@
 import uuid
-from typing import Any, Optional, Union, Tuple
-
-from django.views import View
-from rest_framework.views import get_view_name
+from typing import Any, Optional, Tuple
 
 from djapm.apm import types, log
 
