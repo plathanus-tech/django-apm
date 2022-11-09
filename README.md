@@ -187,12 +187,13 @@ Install the package using your favorite packaging tool: pip / poetry / pdm, etc.
     - `APM_REQUEST_SAVE_QUERY_STRING`: Boolean that when set to `True` will save the request raw query string. Defaults to `True`;
     - `APM_NOTIFY_USING_CELERY`: Boolean that when set to `True` will dispatch a celery task when notificating. Since the process of notificating Integration can take a long time, we suggest you to set this to `True`. Defaults to `False`.
     - `APM_NOTIFY_ON_DEBUG_TRUE`: Boolean that when set to `True` will notify errors even when `DEBUG=True`. Defaults to `False`.
+    - `APM_USE_DATABASE`: String representing a key to the `DATABASES` django setting. Defaults to the django-default "default". Useful for changing which database apm will use to store it's data.
 
 ## Storage considerations
 
 Since `djapm` uses the database to register, get metrics, this may lead to a lot of storage being used. `djapm` doesn't do cleanups, if you use celery-beat it may be useful to have a scheduled task to do the cleanup. Most of the data displayed on the dashboard is from the last 7 days.
 
-You also may find useful to use a separate database for this metrics, errors.
+You also may find useful to use a separate database for this metrics, errors. For that use the `APM_USE_DATABASE` setting.
 
 ## Ellapsed time considerations
 
