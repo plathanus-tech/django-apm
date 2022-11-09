@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import View
+from rest_framework.views import APIView
 
 from djapm.apm import contrib, models, types
 
@@ -28,73 +29,22 @@ class ApmView(View):
         contrib._contribute_to_request(request, view=self, logger_name=self.logger_name)
         return super().dispatch(request, *args, **kwargs)
 
-    # The methods defined below are for type-checking purposes only.
-    # implementing them here, causes the same behavior if not implemented
-    # (see super().dispatch()).
 
-    def get(
-        self,
-        request: types.PatchedHttpRequest,
-        *args,
-        **kwargs,
-    ) -> HttpResponse:
-        return super().get(request, *args, **kwargs)
+class ApmAPIView(APIView):
+    """Apm Rest Framework class based view that will contribute to the incoming `request` before dispatching.
+    Allowing it to be tracked by the middlewares."""
 
-    def post(
-        self,
-        request: types.PatchedHttpRequest,
-        *args,
-        **kwargs,
-    ) -> HttpResponse:
-        return super().post(request, *args, **kwargs)
+    logger_name: Optional[str] = None
 
-    def put(
-        self,
-        request: types.PatchedHttpRequest,
-        *args,
-        **kwargs,
-    ) -> HttpResponse:
-        return super().put(request, *args, **kwargs)
-
-    def patch(
-        self,
-        request: types.PatchedHttpRequest,
-        *args,
-        **kwargs,
-    ) -> HttpResponse:
-        return super().patch(request, *args, **kwargs)
-
-    def delete(
-        self,
-        request: types.PatchedHttpRequest,
-        *args,
-        **kwargs,
-    ) -> HttpResponse:
-        return super().delete(request, *args, **kwargs)
-
-    def head(
-        self,
-        request: types.PatchedHttpRequest,
-        *args,
-        **kwargs,
-    ) -> HttpResponse:
-        return super().head(request, *args, **kwargs)
-
-    def options(
-        self,
-        request: types.PatchedHttpRequest,
-        *args,
-        **kwargs,
-    ) -> HttpResponse:
-        return super().options(request, *args, **kwargs)
-
-    def trace(
-        self,
-        request: types.PatchedHttpRequest,
-        *args,
-        **kwargs,
-    ) -> HttpResponse:
-        return super().trace(request, *args, **kwargs)
+    def dispatch(self, request, *args, **kwargs):
+        rest_request = self.initialize_request(request, *args, **kwargs)
+        contrib._contribute_to_request(
+            request,
+            view=self,
+            logger_name=self.logger_name,
+            rest_request=rest_request,
+        )
+        return super().dispatch(request, *args, **kwargs)
 
 
 def render_dashboard(request):

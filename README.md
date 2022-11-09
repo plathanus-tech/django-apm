@@ -52,7 +52,7 @@ Install the package using your favorite packaging tool: pip / poetry / pdm, etc.
     <img src="./docs/examples/dashboard.png">
 
 4.  **Upgrading your views**
-    django-apm comes with 3 decorators: `apm_api_view`, `apm_view` and `apm_admin_view`. Also, it comes with a ClassBasedView: `ApmView` and a ModelAdmin for tracking POST requests: `ApmModelAdmin`. Each of these adds some attributes to the `request`, they are:
+    django-apm comes with 3 decorators: `apm_api_view`, `apm_view` and `apm_admin_view`. Also, it comes with two ClassBasedViews: `ApmView` and `ApmAPIView`. Also there's a ModelAdmin for tracking POST requests: `ApmModelAdmin`. Each of these adds some attributes to the `request`, they are:
 
     - `id` (`str`): A string UUID4;
     - `logger` (`logging.Logger`): A logger that you can use to log to the sdout and keep track of all logs emitted.
@@ -117,7 +117,7 @@ Install the package using your favorite packaging tool: pip / poetry / pdm, etc.
 
     - The class-based-view (CBV) version:
 
-      If you want to keep track of your CBVs. Inherit the `ApmView` in your view, so we can add the required attributes before your view gets called.
+      If you want to keep track of your CBVs. Inherit the `ApmView` for your regular django views, or the `ApmAPIView` for your DRF's API views. This way we can add the required attributes before your view gets called.
 
       _Example django CBV view_:
 
@@ -129,6 +129,18 @@ Install the package using your favorite packaging tool: pip / poetry / pdm, etc.
       class YourCreateView(CreateView, ApmView):
           ...
           def post(self, request: PatchedHttpRequest, **kwargs):
+              ...
+      ```
+
+      _Example DRF CBV view:_
+      ```python
+      from djapm.apm.generics import ApmCreateAPIView  # or any other view
+      from djapm.apm.types import ApmRequest
+
+
+      class YourAPICreateView(ApmCreateAPIView):
+          ...
+          def create(self, request: ApmRequest, *args, **kwargs):
               ...
       ```
 
@@ -187,16 +199,17 @@ Install the package using your favorite packaging tool: pip / poetry / pdm, etc.
     - `APM_REQUEST_SAVE_QUERY_STRING`: Boolean that when set to `True` will save the request raw query string. Defaults to `True`;
     - `APM_NOTIFY_USING_CELERY`: Boolean that when set to `True` will dispatch a celery task when notificating. Since the process of notificating Integration can take a long time, we suggest you to set this to `True`. Defaults to `False`.
     - `APM_NOTIFY_ON_DEBUG_TRUE`: Boolean that when set to `True` will notify errors even when `DEBUG=True`. Defaults to `False`.
+    - `APM_USE_DATABASE`: String representing a key to the `DATABASES` django setting. Defaults to the django-default "default". Useful for changing which database apm will use to store it's data.
 
 ## Storage considerations
 
 Since `djapm` uses the database to register, get metrics, this may lead to a lot of storage being used. `djapm` doesn't do cleanups, if you use celery-beat it may be useful to have a scheduled task to do the cleanup. Most of the data displayed on the dashboard is from the last 7 days.
 
-You also may find useful to use a separate database for this metrics, errors.
+You also may find useful to use a separate database for this metrics, errors. For that use the `APM_USE_DATABASE` setting.
 
 ## Ellapsed time considerations
 
-The ellapsed time displayed, registered is not precise from what your clients may be having. Since we only start keeping track of the time when the request first enters the `ApmMetricsMiddleware`.
+The ellapsed time displayed/registered is not precise from what your clients may be having. Since we only start keeping track of the time when the request first enters the `ApmMetricsMiddleware`.
 
 ## Project Future
 

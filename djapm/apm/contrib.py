@@ -1,9 +1,7 @@
 import uuid
-from typing import Any, Optional, Union, Tuple
+from typing import Any, Optional, Tuple
 
-from django.views import View
-from rest_framework.views import get_view_name
-
+from rest_framework.request import Request
 from djapm.apm import types, log
 
 
@@ -15,7 +13,7 @@ def _contribute_to_request(
     *,
     view: Any,
     logger_name: Optional[str],
-    rest_request: Optional[types.ApmRequest] = None,
+    rest_request: Optional[Request] = None,
 ):
     data = request.POST
     prefix = "dj"
