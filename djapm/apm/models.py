@@ -1,6 +1,9 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
+from djapm.apm import dflt_conf
 
 __all__ = (
     "ApiRequest",
@@ -15,7 +18,22 @@ __all__ = (
 UserModel = get_user_model()
 
 
-class ApiRequest(models.Model):
+class ApmManager(models.Manager):
+    def get_queryset(self) -> models.QuerySet:
+        database_alias = getattr(
+            settings, "APM_USE_DATABASE", dflt_conf.APM_USE_DATABASE
+        )
+        return super().get_queryset().using(database_alias)
+
+
+class ApmModel(models.Model):
+    objects = ApmManager()
+
+    class Meta:
+        abstract = True
+
+
+class ApiRequest(ApmModel):
     id = models.CharField(
         verbose_name=_("Request ID"),
         help_text=_("Unique identifier of this request"),
@@ -82,7 +100,7 @@ class ApiRequest(models.Model):
         return self.id
 
 
-class ApiResponse(models.Model):
+class ApiResponse(ApmModel):
     request = models.OneToOneField(
         verbose_name=_("Request"),
         to=ApiRequest,
@@ -127,7 +145,7 @@ class ApiResponse(models.Model):
         return self.request_id
 
 
-class ErrorTrace(models.Model):
+class ErrorTrace(ApmModel):
     request = models.OneToOneField(
         verbose_name=_("Request"),
         to=ApiRequest,
@@ -186,7 +204,7 @@ class ErrorTrace(models.Model):
         return self.request_id
 
 
-class RequestLog(models.Model):
+class RequestLog(ApmModel):
     trace = models.ForeignKey(
         verbose_name=_("Error Trace"),
         to=ErrorTrace,
@@ -228,7 +246,7 @@ class RequestLog(models.Model):
         return self.trace_id
 
 
-class Integration(models.Model):
+class Integration(ApmModel):
     SLACK_PLATFORM = "slack"
     DISCORD_PLATFORM = "discord"
     PLATFORMS = ((SLACK_PLATFORM, "Slack"), (DISCORD_PLATFORM, "Discord"))
@@ -263,7 +281,7 @@ class Integration(models.Model):
         return self.platform
 
 
-class NotificationReceiver(models.Model):
+class NotificationReceiver(ApmModel):
     NAME_RECEIVER_TYPE = "name"
     ID_RECEIVER_TYPE = "id"
 
