@@ -3,10 +3,10 @@ import random
 from django.http import HttpResponse
 from django.views.generic import ListView
 
-from djapm.apm import decorators
+from djapm.apm import decorators, generics
 from djapm.apm.types import ApmRequest, PatchedHttpRequest
 from djapm.apm.views import ApmView
-from rest_framework import serializers, generics
+from rest_framework import serializers
 from rest_framework.response import Response
 
 from polls.models import Poll
@@ -25,7 +25,7 @@ def get_polls(request: ApmRequest, **kwargs) -> Response:
     return Response(serializer.data)
 
 
-class Polls(ApmView, generics.ListAPIView):
+class Polls(generics.ApmListAPIView):
     queryset = Poll.objects.all()
     serializer_class = PollSerializer
 

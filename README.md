@@ -52,7 +52,7 @@ Install the package using your favorite packaging tool: pip / poetry / pdm, etc.
     <img src="./docs/examples/dashboard.png">
 
 4.  **Upgrading your views**
-    django-apm comes with 3 decorators: `apm_api_view`, `apm_view` and `apm_admin_view`. Also, it comes with a ClassBasedView: `ApmView` and a ModelAdmin for tracking POST requests: `ApmModelAdmin`. Each of these adds some attributes to the `request`, they are:
+    django-apm comes with 3 decorators: `apm_api_view`, `apm_view` and `apm_admin_view`. Also, it comes with two ClassBasedViews: `ApmView` and `ApmAPIView`. Also there's a ModelAdmin for tracking POST requests: `ApmModelAdmin`. Each of these adds some attributes to the `request`, they are:
 
     - `id` (`str`): A string UUID4;
     - `logger` (`logging.Logger`): A logger that you can use to log to the sdout and keep track of all logs emitted.
@@ -117,7 +117,7 @@ Install the package using your favorite packaging tool: pip / poetry / pdm, etc.
 
     - The class-based-view (CBV) version:
 
-      If you want to keep track of your CBVs. Inherit the `ApmView` in your view, so we can add the required attributes before your view gets called.
+      If you want to keep track of your CBVs. Inherit the `ApmView` for your regular django views, or the `ApmAPIView` for your DRF's API views. This way we can add the required attributes before your view gets called.
 
       _Example django CBV view_:
 
@@ -129,6 +129,18 @@ Install the package using your favorite packaging tool: pip / poetry / pdm, etc.
       class YourCreateView(CreateView, ApmView):
           ...
           def post(self, request: PatchedHttpRequest, **kwargs):
+              ...
+      ```
+
+      _Example DRF CBV view:_
+      ```python
+      from djapm.apm.generics import ApmCreateAPIView  # or any other view
+      from djapm.apm.types import ApmRequest
+
+
+      class YourAPICreateView(ApmCreateAPIView):
+          ...
+          def create(self, request: ApmRequest, *args, **kwargs):
               ...
       ```
 
@@ -197,7 +209,7 @@ You also may find useful to use a separate database for this metrics, errors. Fo
 
 ## Ellapsed time considerations
 
-The ellapsed time displayed, registered is not precise from what your clients may be having. Since we only start keeping track of the time when the request first enters the `ApmMetricsMiddleware`.
+The ellapsed time displayed/registered is not precise from what your clients may be having. Since we only start keeping track of the time when the request first enters the `ApmMetricsMiddleware`.
 
 ## Project Future
 
