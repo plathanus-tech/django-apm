@@ -6,9 +6,10 @@ import traceback
 from django.conf import settings
 from django.http import HttpRequest
 from django.utils import timezone
+from django.urls import resolve
 from rest_framework.response import Response
 
-from djapm.apm import types, models, dflt_conf, tasks
+from djapm.apm import types, models, dflt_conf, tasks, contrib
 
 
 __all__ = (
@@ -153,3 +154,35 @@ class ErrorTraceMiddleware:
             ]
         )
         return trace
+
+class ApmCatchallMetricsMiddleware(ApmMetricsMiddleware):
+    """A middleware that will register ALL request/responses and associated data"""
+
+    def _contribute_to_request(self, request):
+        """Get view name for request"""
+        try:
+            func, args, kwargs = resolve(request.path)
+            if not hasattr(func, "view_class"):
+                return
+            view_class = func.view_class
+        except Exception:
+            logging.warning("Could not resolve view for request", exc_info=True)
+            return
+
+
+        contrib._contribute_to_request(
+            request,
+            view=view_class,
+            logger_name=None,
+            rest_request=None,
+        )
+    
+    def __call__(self, request: types.PatchedHttpRequest):
+        self._contribute_to_request(request)
+        return super().__call__(request)
+
+    def process_exception(
+        self, request: types.PatchedHttpRequest, exception: Exception
+    ):
+        self._contribute_to_request(request)
+        return super().process_exception(request, exception)
