@@ -155,7 +155,7 @@ class ErrorTraceMiddleware:
         )
         return trace
 
-class ApmCatchallMetricsMiddleware(ApmMetricsMiddleware):
+class ApmCatchallMetricsMiddleware(ApmMetricsMiddleware, ErrorTraceMiddleware):
     """A middleware that will register ALL request/responses and associated data"""
 
     def _contribute_to_request(self, request):
