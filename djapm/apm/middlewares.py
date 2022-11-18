@@ -162,19 +162,23 @@ class ApmCatchallMetricsMiddleware(ApmMetricsMiddleware):
         """Get view name for request"""
         try:
             func, args, kwargs = resolve(request.path)
-            if not hasattr(func, "view_class"):
-                return
-            view_class = func.view_class
+            if hasattr(func, "view_class"):
+                view_class = func.view_class
+            else:
+                view_class = func
         except Exception:
             logging.warning("Could not resolve view for request", exc_info=True)
             return
 
+        rest_request = None
+        if hasattr(request, "data"):
+            rest_request = request
 
         contrib._contribute_to_request(
             request,
             view=view_class,
             logger_name=None,
-            rest_request=None,
+            rest_request=rest_request,
         )
     
     def __call__(self, request: types.PatchedHttpRequest):
