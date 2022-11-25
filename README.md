@@ -26,11 +26,16 @@ Install the package using your favorite packaging tool: pip / poetry / pdm, etc.
 
 2.  **Adding the middlewares**
 
-    - Adding the ApmMetricsMiddleware middleware (optional).
-      If you want to track the requests timing, add the `djapm.apm.middlewares.ApmMetricsMiddleware` to `MIDDLEWARE` in your django settings. Note that this will store into your database **all** requests that use the decorator `apm_api_view` (This decorator is explained later), no cleanup is done. Is up to you to clean the registers periodically if desired. It's better to keep this middleware the **closest to the top** of your `MIDDLEWARE` as possible , this way the `ellapsed` time is closer to the reality.
-
-    - Adding the ErrorTraceMiddleware (optional).
+    - Adding the **ErrorTraceMiddleware** (optional).
       If you want to track errors and receive notifications, add the `djapm.apm.middlewares.ErrorTraceMiddleware` to `MIDDLEWARE` in your django settings. We recommend that you keep this middleware **closest to the bottom** of your `MIDDLEWARE` as possible. This middleware will notify any exception raised on your view to all integrations added (the setup is explained later).
+    
+    - Adding the **ApmMetricsMiddleware** middleware (optional).
+      If you want to track the requests timing, add the `djapm.apm.middlewares.ApmMetricsMiddleware` to `MIDDLEWARE` in your django settings.
+
+    - Adding the **ApmCatchallMetricsMiddleware** (optional).
+      If you want to track **all** requests and errors, add the `djapm.apm.middlewares.ApmCatchallMetricsMiddleware` to `MIDDLEWARE` in your django settings. This middleware combines the features of the **ApmMetricsMiddleware** and **ErrorTraceMiddleware** with the distinction that you are not required to add middlewares or decorators to the views you want to track. Because all views are tracked automatically you can skip step 4 if you use this middleware instead of the other two.
+      
+      Note that the ApmMetricsMiddleware and ApmCatchallMetricsMiddleware will store **all** requests and errors of all views and API endpoints into your database, no cleanup is done. Is up to you to clean the registers periodically if desired. It's better to keep this middleware the **closest to the top** of your `MIDDLEWARE` as possible, this way the `ellapsed` time is closer to the reality.
 
 3.  **Including the URLs**
 
